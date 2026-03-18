@@ -17,11 +17,7 @@ A professional, full-stack web application for all your PDF needs. Built with a 
 
 ## 📸 Screenshots
 
-### Home Page
-![Home Page](screenshots/home.png)
 
-### Merge Tool
-![Merge Tool](screenshots/merge.png)
 
 ## 🚀 Quality & Tech Stack
 
@@ -64,6 +60,3 @@ The project is pre-configured for deployment:
 - **Frontend**: Vercel (see `client/vercel.json`)
 - **Backend**: Render (Standard Node.js service)
 - **Database**: MongoDB Atlas
-
-## 📄 License
-MIT License - Feel free to use and contribute!
