@@ -1,0 +1,60 @@
+<div class="tool-page">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">🔒</div>
+    <h1>Protect <span class="gradient-text">PDF</span></h1>
+    <p>Secure your PDF files with a password to prevent unauthorized access</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="tool-card-section">
+      <h3>Select file to protect</h3>
+      <app-file-upload
+        accept=".pdf"
+        label="Drop your PDF file here"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    @if (files.length > 0) {
+      <div class="tool-card-section">
+        <h3>Security Settings</h3>
+        <div class="form-group">
+          <label class="form-label">Set Password</label>
+          <input type="password" class="input-field" [(ngModel)]="password" placeholder="Enter a secure password">
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">
+            This password will be required to open the PDF. Don't forget it, as it cannot be recovered.
+          </p>
+        </div>
+      </div>
+    }
+
+    @if (processing && !success) {
+      <div class="tool-card-section">
+        <div class="processing-overlay">
+          <div class="spinner"></div>
+          <p>Encrypting PDF...</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (success) {
+      <div class="result-section">
+        <h3>✅ Protection Applied!</h3>
+        <p>Your PDF is now securely password-protected.</p>
+        <button class="btn-primary" (click)="files = []; password = ''; success = false">Protect Another</button>
+      </div>
+    }
+
+    @if (files.length > 0 && !processing && !success) {
+      <div class="tool-actions">
+        <button class="btn-primary" (click)="protect()">
+          🚀 Encrypt PDF
+        </button>
+      </div>
+    }
+  </div>
+</div>

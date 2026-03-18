@@ -1,0 +1,24 @@
+[33m❯[39m Building...
+[32m✔[39m Building...
+Application bundle generation failed. [4.918 seconds] - 2026-03-18T14:49:39.718Z
+
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './app.component.css'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:11:12:
+[37m      11 │   styleUrl: [32m'./app.component.css'[37m
+         ╵             [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'Object' does not exist on type 'HistoryComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/history/history.component.html:29:36:
+[37m      29 │ ...     {{ stats.byOperation ? ([32mObject[37m.keys(stats.byOperation).sor...
+         ╵                                 [32m~~~~~~[0m
+
+  Error occurs in the template of component HistoryComponent.
+
+    src/app/pages/history/history.component.ts:23:15:
+[37m      23 │   templateUrl: [32m'./history.component.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m

@@ -1,0 +1,84 @@
+<div class="tool-page">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">✏️</div>
+    <h1>Edit <span class="gradient-text">PDF</span></h1>
+    <p>Add text, annotations, and highlights to your PDF</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="tool-card-section">
+      <h3>Select file to edit</h3>
+      <app-file-upload
+        accept=".pdf"
+        label="Drop your PDF file here"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    @if (files.length > 0) {
+      <div class="tool-card-section">
+        <h3>Add Text</h3>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label">Text to add</label>
+          <input type="text" class="input-field" [(ngModel)]="text" placeholder="Type text here...">
+        </div>
+        
+        <div class="tool-options-row">
+          <div class="form-group">
+            <label class="form-label">Page Number</label>
+            <input type="number" class="input-field" [(ngModel)]="pageNumber" min="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Font Size</label>
+            <input type="number" class="input-field" [(ngModel)]="fontSize" min="8" max="72">
+          </div>
+        </div>
+        
+        <div class="tool-options-row" style="margin-top: 16px;">
+          <div class="form-group">
+            <label class="form-label">X Position (from left)</label>
+            <input type="number" class="input-field" [(ngModel)]="x">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Y Position (from bottom)</label>
+            <input type="number" class="input-field" [(ngModel)]="y">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 16px;">
+          <label class="form-label">Color</label>
+          <input type="color" [(ngModel)]="color" style="width: 100px; height: 40px; border: none; background: transparent; cursor: pointer;">
+        </div>
+      </div>
+    }
+
+    @if (processing && !success) {
+      <div class="tool-card-section">
+        <div class="processing-overlay">
+          <div class="spinner"></div>
+          <p>Applying changes...</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (success) {
+      <div class="result-section">
+        <h3>✅ Editing Complete!</h3>
+        <p>Your PDF has been updated successfully.</p>
+        <button class="btn-primary" (click)="files = []; text = ''; success = false">Edit Another</button>
+      </div>
+    }
+
+    @if (files.length > 0 && !processing && !success) {
+      <div class="tool-actions">
+        <button class="btn-primary" (click)="edit()">
+          🚀 Apply Edits
+        </button>
+      </div>
+    }
+  </div>
+</div>

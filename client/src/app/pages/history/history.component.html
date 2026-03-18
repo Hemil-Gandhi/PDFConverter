@@ -1,0 +1,100 @@
+<div class="tool-page" style="max-width: 1000px;">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(100, 116, 139, 0.15); color: #64748b;">📋</div>
+    <h1>Conversion <span class="gradient-text">History</span></h1>
+    <p>View your past operations and download history</p>
+  </div>
+
+  @if (stats) {
+    <div class="stats-grid">
+      <div class="stat-card glass-card">
+        <span class="stat-icon">📈</span>
+        <div class="stat-info">
+          <h4>Total Conversions</h4>
+          <span class="stat-value">{{ stats.totalConversions }}</span>
+        </div>
+      </div>
+      <div class="stat-card glass-card">
+        <span class="stat-icon">💾</span>
+        <div class="stat-info">
+          <h4>Data Processed</h4>
+          <span class="stat-value">{{ formatSize(stats.totalInputSize) }}</span>
+        </div>
+      </div>
+      <div class="stat-card glass-card">
+        <span class="stat-icon">⚡</span>
+        <div class="stat-info">
+          <h4>Most Used Tool</h4>
+          <span class="stat-value" style="text-transform: capitalize;">
+            {{ stats.byOperation ? (Object.keys(stats.byOperation).sort((a,b) => stats.byOperation[b] - stats.byOperation[a])[0] || 'None') : 'None' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="history-list glass-card">
+    <div class="history-header">
+      <h3>Recent Operations</h3>
+      <button *ngIf="history.length > 0" class="btn-clear" (click)="clearHistory()">
+        🗑️ Clear History
+      </button>
+    </div>
+
+    @if (loading && history.length === 0) {
+      <div class="history-loading">
+        <div class="spinner"></div>
+      </div>
+    } @else if (history.length === 0 && !loading) {
+      <div class="history-empty">
+        <span class="empty-icon">📂</span>
+        <p>{{ error || 'No conversion history found.' }}</p>
+        <a routerLink="/convert" class="btn-primary" style="margin-top: 16px;">Start Converting</a>
+      </div>
+    } @else {
+      <div class="table-container">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Operation</th>
+              <th>File Name</th>
+              <th>Details</th>
+              <th>Size</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of history">
+              <td>
+                <div class="op-badge" [style.background]="getOperationColor(item.operation) + '20'" [style.color]="getOperationColor(item.operation)">
+                  <span>{{ getOperationIcon(item.operation) }}</span>
+                  {{ item.operation }}
+                </div>
+              </td>
+              <td class="file-namecell">
+                <span class="filename" [title]="item.originalName">{{ item.originalName }}</span>
+              </td>
+              <td class="details-cell">{{ item.details }}</td>
+              <td class="size-cell">
+                @if (item.operation !== 'merge') {
+                  <span class="size-before">{{ formatSize(item.fileSize) }}</span>
+                  <span class="size-arrow">→</span>
+                }
+                <span class="size-after">{{ formatSize(item.outputSize) }}</span>
+              </td>
+              <td class="date-cell">{{ formatDate(item.createdAt) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      @if (hasMore) {
+        <div class="load-more">
+          <button class="btn-secondary" (click)="loadMore()" [disabled]="loading">
+            {{ loading ? 'Loading...' : 'Load More' }}
+          </button>
+        </div>
+      }
+    }
+  </div>
+</div>

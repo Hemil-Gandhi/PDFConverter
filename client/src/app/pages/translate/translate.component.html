@@ -1,0 +1,67 @@
+<div class="tool-page">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4;">🌐</div>
+    <h1>Translate <span class="gradient-text">PDF</span></h1>
+    <p>Translate the text content of your PDF to different languages</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="tool-card-section">
+      <h3>Select file to translate</h3>
+      <app-file-upload
+        accept=".pdf"
+        label="Drop your PDF file here"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    @if (files.length > 0) {
+      <div class="tool-card-section">
+        <h3>Translation Settings</h3>
+        <div class="form-group">
+          <label class="form-label">Target Language</label>
+          <select class="select-field" [(ngModel)]="targetLanguage">
+            @for (lang of languages; track lang.code) {
+              <option [value]="lang.code">{{ lang.name }}</option>
+            }
+          </select>
+        </div>
+        
+        <div class="info-banner" style="margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">
+            <strong>Note:</strong> Translation preserves layout where possible, but complex formatting or images might be adjusted.
+          </p>
+        </div>
+      </div>
+    }
+
+    @if (processing && !success) {
+      <div class="tool-card-section">
+        <div class="processing-overlay">
+          <div class="spinner"></div>
+          <p>Translating document... This may take a while depending on the size.</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (success) {
+      <div class="result-section">
+        <h3>✅ Translation Complete!</h3>
+        <p>Your PDF has been translated successfully.</p>
+        <button class="btn-primary" (click)="files = []; success = false">Translate Another</button>
+      </div>
+    }
+
+    @if (files.length > 0 && !processing && !success) {
+      <div class="tool-actions">
+        <button class="btn-primary" (click)="translate()">
+          🚀 Translate PDF
+        </button>
+      </div>
+    }
+  </div>
+</div>

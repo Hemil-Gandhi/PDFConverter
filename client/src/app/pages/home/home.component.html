@@ -1,0 +1,125 @@
+<div class="home-page">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+      <div class="hero-orb orb-3"></div>
+    </div>
+    <div class="hero-content container">
+      <div class="hero-badge">
+        <span class="badge badge-accent">✨ All-in-One Document Toolkit</span>
+      </div>
+      <h1 class="hero-title">
+        Convert, Edit & Transform<br/>
+        <span class="gradient-text">Your Documents Instantly</span>
+      </h1>
+      <p class="hero-subtitle">
+        Powerful PDF tools at your fingertips. Convert between formats, merge, split, 
+        compress, watermark, protect, and so much more — all in one place.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/convert" class="btn-primary btn-lg">
+          🚀 Start Converting
+        </a>
+        <a href="#tools" class="btn-secondary btn-lg">
+          Explore Tools ↓
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">10+</span>
+          <span class="stat-label">Tools Available</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">15+</span>
+          <span class="stat-label">File Formats</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">50MB</span>
+          <span class="stat-label">Max File Size</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools Section -->
+  <section id="tools" class="tools-section container">
+    <div class="section-header">
+      <h2>All <span class="gradient-text">Tools</span></h2>
+      <p>Everything you need to work with documents</p>
+    </div>
+
+    <!-- Search & Filter -->
+    <div class="tools-controls">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" class="input-field" placeholder="Search tools..." [(ngModel)]="searchQuery" />
+      </div>
+      <div class="category-tabs">
+        @for (cat of categories; track cat.id) {
+          <button
+            class="tab"
+            [class.active]="activeCategory === cat.id"
+            (click)="setCategory(cat.id)"
+          >
+            {{ cat.label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Tool Cards Grid -->
+    <div class="tools-grid">
+      @for (tool of filteredTools; track tool.route; let i = $index) {
+        <a [routerLink]="tool.route" class="tool-card glass-card" [style.animation-delay]="(i * 0.05) + 's'">
+          <div class="tool-icon" [style.background]="tool.color + '18'" [style.color]="tool.color">
+            <span>{{ tool.icon }}</span>
+          </div>
+          <h3 class="tool-name">{{ tool.name }}</h3>
+          <p class="tool-desc">{{ tool.description }}</p>
+          <span class="tool-arrow" [style.color]="tool.color">→</span>
+        </a>
+      }
+    </div>
+
+    @if (filteredTools.length === 0) {
+      <div class="no-results">
+        <p>😔 No tools match your search</p>
+      </div>
+    }
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section container">
+    <div class="section-header">
+      <h2>Why <span class="gradient-text">PDFConverter</span>?</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card glass-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Process your files instantly with our optimized conversion engine</p>
+      </div>
+      <div class="feature-card glass-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure & Private</h3>
+        <p>Your files are processed locally and never stored on external servers</p>
+      </div>
+      <div class="feature-card glass-card">
+        <div class="feature-icon">🎨</div>
+        <h3>High Quality</h3>
+        <p>Maintain document quality with precision conversion algorithms</p>
+      </div>
+      <div class="feature-card glass-card">
+        <div class="feature-icon">♾️</div>
+        <h3>Unlimited Usage</h3>
+        <p>No limits on conversions. Use as many tools as you need, anytime</p>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,68 @@
+<div class="tool-page">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">💧</div>
+    <h1>Add <span class="gradient-text">Watermark</span></h1>
+    <p>Stamp an image or text over your PDF in seconds</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="tool-card-section">
+      <h3>Select file to watermark</h3>
+      <app-file-upload
+        accept=".pdf"
+        label="Drop your PDF file here"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    @if (files.length > 0) {
+      <div class="tool-card-section">
+        <h3>Watermark Options</h3>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label">Watermark Text</label>
+          <input type="text" class="input-field" [(ngModel)]="text" placeholder="e.g., CONFIDENTIAL">
+        </div>
+        
+        <div class="tool-options-row">
+          <div class="form-group">
+            <label class="form-label">Opacity (0.1 to 1.0)</label>
+            <input type="number" class="input-field" [(ngModel)]="opacity" min="0.1" max="1" step="0.1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rotation (degrees)</label>
+            <input type="number" class="input-field" [(ngModel)]="rotation">
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (processing && !success) {
+      <div class="tool-card-section">
+        <div class="processing-overlay">
+          <div class="spinner"></div>
+          <p>Adding watermark...</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (success) {
+      <div class="result-section">
+        <h3>✅ Watermark Added!</h3>
+        <p>Your PDF has been stamped successfully.</p>
+        <button class="btn-primary" (click)="files = []; text = 'CONFIDENTIAL'; success = false">Watermark Another</button>
+      </div>
+    }
+
+    @if (files.length > 0 && !processing && !success) {
+      <div class="tool-actions">
+        <button class="btn-primary" (click)="watermark()">
+          🚀 Add Watermark
+        </button>
+      </div>
+    }
+  </div>
+</div>

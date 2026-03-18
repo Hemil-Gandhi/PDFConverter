@@ -1,0 +1,63 @@
+<div class="tool-page">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(20, 184, 166, 0.15); color: #14b8a6;">📦</div>
+    <h1>Compress <span class="gradient-text">PDF</span></h1>
+    <p>Reduce file size while optimizing for maximal PDF quality</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="tool-card-section">
+      <h3>Select file to compress</h3>
+      <app-file-upload
+        accept=".pdf"
+        label="Drop your PDF file here"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    @if (files.length > 0) {
+      <div class="tool-card-section">
+        <div class="info-banner" style="padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; text-align: center;">
+          <p style="margin: 0; color: var(--text-secondary);">
+            Original Size: <strong style="color: var(--text-primary)">{{ formatSize(files[0].size) }}</strong>
+          </p>
+          <p style="margin: 8px 0 0; font-size: 0.85rem; color: var(--text-muted);">
+            Our advanced engine will automatically apply the best compression ratio while maintaining readability.
+          </p>
+        </div>
+      </div>
+    }
+
+    @if (processing && !success) {
+      <div class="tool-card-section">
+        <div class="processing-overlay">
+          <div class="spinner"></div>
+          <p>Compressing PDF... This might take a few moments.</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (success) {
+      <div class="result-section">
+        <h3>✅ Compression Complete!</h3>
+        <p>Your PDF has been compressed securely.</p>
+        @if (savedSize) {
+          <p style="color: #10b981; font-weight: bold; font-size: 1.1em;">You saved {{ savedSize }}!</p>
+        }
+        <button class="btn-primary" style="margin-top: 16px;" (click)="files = []; success = false; savedSize = ''">Compress Another</button>
+      </div>
+    }
+
+    @if (files.length > 0 && !processing && !success) {
+      <div class="tool-actions">
+        <button class="btn-primary" (click)="compress()">
+          🚀 Compress PDF
+        </button>
+      </div>
+    }
+  </div>
+</div>

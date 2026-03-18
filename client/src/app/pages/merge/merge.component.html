@@ -1,0 +1,49 @@
+<div class="tool-page">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">📎</div>
+    <h1>Merge <span class="gradient-text">PDF</span></h1>
+    <p>Combine multiple PDF files into a single document easily</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="tool-card-section">
+      <h3>Select files to merge</h3>
+      <app-file-upload
+        accept=".pdf"
+        [multiple]="true"
+        label="Drop your PDF files here"
+        sublabel="Select at least 2 files to merge"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    @if (processing && !success) {
+      <div class="tool-card-section">
+        <div class="processing-overlay">
+          <div class="spinner"></div>
+          <p>Merging PDFs...</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (success) {
+      <div class="result-section">
+        <h3>✅ Merge Complete!</h3>
+        <p>Your PDFs have been combined successfully.</p>
+        <button class="btn-primary" (click)="files = []; success = false">Merge More files</button>
+      </div>
+    }
+
+    @if (files.length > 1 && !processing && !success) {
+      <div class="tool-actions">
+        <button class="btn-primary" (click)="merge()">
+          🚀 Merge PDFs
+        </button>
+      </div>
+    }
+  </div>
+</div>

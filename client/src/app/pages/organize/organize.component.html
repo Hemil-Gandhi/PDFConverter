@@ -1,0 +1,74 @@
+<div class="tool-page">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(249, 115, 22, 0.15); color: #f97316;">📑</div>
+    <h1>Organize <span class="gradient-text">Pages</span></h1>
+    <p>Reorder pages or delete specific pages from your document</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="tool-card-section">
+      <h3>Select file to organize</h3>
+      <app-file-upload
+        accept=".pdf"
+        label="Drop your PDF file here"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    @if (files.length > 0) {
+      <div class="tool-card-section">
+        <h3>Page Order</h3>
+        
+        @if (pdfInfo) {
+          <div class="info-banner" style="margin-bottom: 16px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+            <p style="margin: 0; font-size: 0.9em; color: var(--text-secondary);">
+              Document has <strong>{{ pdfInfo.pageCount }}</strong> pages.
+            </p>
+          </div>
+        }
+
+        <div class="form-group">
+          <label class="form-label">New Sequence</label>
+          <input 
+            type="text" 
+            class="input-field" 
+            [(ngModel)]="pageOrder" 
+            placeholder="e.g., 3, 1, 2, 5"
+          >
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">
+            Enter the new page order separated by commas (e.g., "3, 1, 2" puts page 3 first). To delete a page, simply omit its number.
+          </p>
+        </div>
+      </div>
+    }
+
+    @if (processing && !success) {
+      <div class="tool-card-section">
+        <div class="processing-overlay">
+          <div class="spinner"></div>
+          <p>Organizing PDF...</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (success) {
+      <div class="result-section">
+        <h3>✅ Organized Successfully!</h3>
+        <p>Your PDF pages have been reordered and saved.</p>
+        <button class="btn-primary" (click)="files = []; pageOrder = ''; success = false">Organize Another</button>
+      </div>
+    }
+
+    @if (files.length > 0 && !processing && !success) {
+      <div class="tool-actions">
+        <button class="btn-primary" (click)="organize()">
+          🚀 Apply Changes
+        </button>
+      </div>
+    }
+  </div>
+</div>

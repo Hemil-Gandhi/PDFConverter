@@ -1,0 +1,68 @@
+<div class="tool-page">
+  <div class="tool-header">
+    <div class="tool-icon" style="background: rgba(99, 102, 241, 0.15); color: #6366f1;">🔄</div>
+    <h1>File <span class="gradient-text">Converter</span></h1>
+    <p>Convert between PDF, Word, Excel, PowerPoint, images and more</p>
+  </div>
+
+  <div class="tool-content">
+    <div class="tool-card-section">
+      <h3>1. Upload your file</h3>
+      <app-file-upload
+        [accept]="acceptedFormats"
+        label="Drop your file here"
+        sublabel="Supports PDF, Word, Excel, PowerPoint, Images"
+        (filesSelected)="onFilesSelected($event)"
+      />
+    </div>
+
+    @if (files.length > 0) {
+      <div class="tool-card-section">
+        <h3>2. Choose output format</h3>
+        <div class="format-grid">
+          @for (fmt of formats; track fmt.value) {
+            <button
+              class="format-btn"
+              [class.active]="targetFormat === fmt.value"
+              [class.disabled]="fmt.value === getInputExt()"
+              (click)="targetFormat = fmt.value"
+              [disabled]="fmt.value === getInputExt()"
+            >
+              <span class="format-icon">{{ fmt.icon }}</span>
+              <span class="format-label">{{ fmt.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    @if (processing && !success) {
+      <div class="tool-card-section">
+        <div class="processing-overlay">
+          <div class="spinner"></div>
+          <p>Converting your file...</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (success) {
+      <div class="result-section">
+        <h3>✅ Conversion Complete!</h3>
+        <p>Your file has been converted and downloaded successfully.</p>
+        <button class="btn-primary" (click)="files = []; targetFormat = ''; success = false">Convert Another File</button>
+      </div>
+    }
+
+    @if (files.length > 0 && targetFormat && !processing && !success) {
+      <div class="tool-actions">
+        <button class="btn-primary" (click)="convert()">
+          🚀 Convert to {{ targetFormat.toUpperCase() }}
+        </button>
+      </div>
+    }
+  </div>
+</div>
