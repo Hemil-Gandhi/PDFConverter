@@ -1,6 +1,6 @@
 # 📑 PDF Master - All-in-One PDF Tools
 
-![PDF Master Banner](screenshots/home.png)
+
 
 A professional, full-stack web application for all your PDF needs. Built with a modern, glassmorphic UI and a robust Node.js backend.
 
